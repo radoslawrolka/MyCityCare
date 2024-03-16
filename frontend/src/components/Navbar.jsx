@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Dropdown from "./Dropdown.jsx";
 
-const Navbar = () => {
+const Navbar = ({shown}) => {
     const [isOpen, setIsOpen] = useState(false);
     const isAdmin = true;
     return (

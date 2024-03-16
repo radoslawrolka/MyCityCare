@@ -18,7 +18,7 @@ const Dropdown = ({isAdmin, shown}) => {
                     {shown === "add" &&
                         <li>
                             <a href={"/add"} className="block py-2 px-3 text-white bg-blue-700 rounded"
-                               aria-current="page">Add</a>
+                               aria-current="page">Report</a>
                         </li>
                     }
                     {shown !== "add" &&

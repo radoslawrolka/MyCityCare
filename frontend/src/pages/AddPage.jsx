@@ -57,7 +57,7 @@ const AddPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar shown={"add"}/>
       <section className="mt-8">
         <h1 className="text-center text-4xl mb-4">
           Dodaj zgłoszenie
