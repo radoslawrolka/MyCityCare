@@ -1,4 +1,5 @@
 from app import app
+
 from flask import render_template, redirect, url_for
 from flask import Flask, request, jsonify
 import os
@@ -22,7 +23,7 @@ s3 = boto3.client(
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return "{ \"message\": \"Hello, World!\" }"
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
