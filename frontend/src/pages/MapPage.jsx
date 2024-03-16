@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from "../components/Navbar.jsx";
-import {MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
 
 

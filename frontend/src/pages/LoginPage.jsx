@@ -12,7 +12,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoginInProgress(true);
     setLoginInProgress(false);
-    navigate('/home')
+    navigate('/map')
   }
 
   return (
