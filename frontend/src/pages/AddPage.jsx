@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.jsx";
 const AddPage = () => {
   return (
       <>
-        <Navbar />
+        <Navbar shown={"add"}/>
         <div>AddPage</div>
       </>
   )
