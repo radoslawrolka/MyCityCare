@@ -37,12 +37,22 @@ const MapPage = () => {
   return (
       <>
         <Navbar />
-        <div>MapPage</div>
         <MapContainer center={position} zoom={13}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {points.map(point => (
+            <Marker key={point.id} position={point.position}>
+              <Popup>
+                <div>
+                  <h2>{point.data.description}</h2>
+                  <p>{point.data.date}</p>
+                  <img src={point.data.photo} alt={point.data.description} />
+                </div>
+              </Popup>
+            </Marker>
+          ))}
         </MapContainer>
       </>
       
