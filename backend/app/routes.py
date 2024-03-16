@@ -9,6 +9,7 @@ import secrets
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from dotenv import load_dotenv
+import datetime
 
 load_dotenv()
 
@@ -34,14 +35,15 @@ class PointDetails(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # Korzystamy z tego samego ID co tabela 'Points'
     pointid = db.Column(db.Integer, db.ForeignKey('points.id'))
     description = db.Column(db.String(100))
+    district = db.Column(db.String(100))
     photo = db.Column(db.String(100))
     category = db.Column(db.String(100))
     reportsNumber = db.Column(db.Integer)
     CreatedDate = db.Column(db.DateTime)
+    ClosedDate = db.Column(db.DateTime)
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.Integer, db.ForeignKey('reports.user_id'))
     mail = db.Column(db.String(100))
 
 
@@ -75,8 +77,6 @@ def upload_file():
 
     file = request.files['file']
     file_content = file.stream.read()
-    with open("sdf.jpg", "wb") as f:
-        f.write(file_content)
 
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
@@ -115,7 +115,10 @@ def add_report():
     category = request.form['category']
     description = request.form['description']
     date = request.form['date']
+    district = request.form['district']
     new_point = Points(cords=localization)
+    db.session.add(new_point)
+    db.session.commit()
     exist = Users.query.filter_by(mail=mail).first()
     if exist is None:
         new_user = Users(mail=mail)
@@ -125,12 +128,48 @@ def add_report():
     else:
         user_id = exist.id
     new_report = Reports(pointid=new_point.id, user_id=user_id)
-    new_point_details = PointDetails(pointid=new_point.id, description=description, photo=link_photo, category=category, reportsNumber=1, CreatedDate=date)
-    db.session.add(new_point)
+    new_point_details = PointDetails(pointid=new_point.id, description=description, district=district, photo=link_photo, category=category, reportsNumber=1, CreatedDate=date, ClosedDate=None)
     db.session.add(new_report)
     db.session.add(new_point_details)
+    db.session.commit()
     return jsonify({'status': 'success'})
     
+@app.route('/return-points', methods=['POST'])
+def return_points():
+    points = Points.query.all()
+    points_list = []
+    for point in points:
+        point_details = PointDetails.query.filter_by(pointid=point.id).first()
+        point_info = {
+            'id': point.id,
+            'cords': point.cords,
+            'description': point_details.description,
+            'district': point_details.district,
+            'photo': point_details.photo,
+            'category': point_details.category,
+            'reportsNumber': point_details.reportsNumber,
+            'CreatedDate': point_details.CreatedDate,
+            'ClosedDate': point_details.ClosedDate
+        }
+        points_list.append(point_info)
+    return jsonify(points_list)
+
+@app.route('/add-existing-report', methods=['POST'])
+def add_existing_report():
+    id = request.form['id']
+    exist = PointDetails.query.filter_by(pointid=id).first()
+    exist.reportsNumber += 1
+    db.session.commit()
+    return jsonify({'status': 'success'})
+
+@app.route('/close-report', methods=['POST'])
+def close_report():
+    id = request.form['id']
+    exist = PointDetails.query.filter_by(pointid=id).first()
+    exist.ClosedDate = datetime.now()
+    db.session.commit()
+    return jsonify({'status': 'success'})
+
 
 
 
