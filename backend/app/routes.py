@@ -11,6 +11,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from dotenv import load_dotenv
 import datetime
+from flask_mail import Mail, Message
+
 
 load_dotenv()
 
@@ -20,6 +22,8 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL # połączenie z db
 app.config['SECRET_KEY'] = secrets.token_hex(16) # klucz do szyfrowania sesji
 db = SQLAlchemy(app) #obiekt bd
+mail = Mail(app)
+app.config.from_pyfile('config.py')
 
 
 # Zdefiniuj modele
@@ -40,7 +44,7 @@ class PointDetails(db.Model):
     photo = db.Column(db.String(100))
     category = db.Column(db.String(100))
     reportsNumber = db.Column(db.Integer)
-    CreatedDate = db.Column(db.DateTime)
+    CreatedDate = db.Column(db.String(100))
     ClosedDate = db.Column(db.DateTime)
 
 class Users(db.Model):
@@ -110,6 +114,39 @@ def upload_file():
 
 @app.route('/add-new-report', methods=['POST'])
 def add_report():
+    try:
+        print(request.data)
+        data_json = request.get_json()
+        #request.data is a  json
+        mail = data_json['mail']
+        localization = data_json['localization']
+        link_photo = data_json['link']
+        category = data_json['category']
+        description = data_json['description']
+        date = data_json['date']
+        district = data_json['district']
+        print(mail, localization, link_photo, category, description, date, district)
+        new_point = Points(cords=localization)
+        db.session.add(new_point)
+        db.session.commit()
+        exist = Users.query.filter_by(mail=mail).first()
+        if exist is None:
+            new_user = Users(mail=mail)
+            db.session.add(new_user)
+            db.session.commit()
+            user_id = new_user.id
+        else:
+            user_id = exist.id
+        new_report = Reports(pointid=new_point.id, user_id=user_id)
+        new_point_details = PointDetails(pointid=new_point.id, description=description, district=district, photo=link_photo, category=category, reportsNumber=1, CreatedDate=date, ClosedDate=None)
+        db.session.add(new_report)
+        db.session.add(new_point_details)
+        db.session.commit()
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        print("An error occurred")
+        print(e)
+    '''
     mail = request.form['mail']
     localization = request.form['localization']
     link_photo = request.form['link']
@@ -117,6 +154,7 @@ def add_report():
     description = request.form['description']
     date = request.form['date']
     district = request.form['district']
+    print(mail, localization, link_photo, category, description, date, district)
     new_point = Points(cords=localization)
     db.session.add(new_point)
     db.session.commit()
@@ -134,8 +172,9 @@ def add_report():
     db.session.add(new_point_details)
     db.session.commit()
     return jsonify({'status': 'success'})
+    '''
     
-@app.route('/return-points', methods=['POST'])
+@app.route('/return-points', methods=['GET'])
 def return_points():
     points = Points.query.all()
     points_list = []

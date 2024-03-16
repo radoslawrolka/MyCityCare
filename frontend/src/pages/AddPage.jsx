@@ -6,6 +6,7 @@ const AddPage = () => {
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
+  const [photo, setPhoto] = useState('');
 
   function getMyLocation(){
     navigator.geolocation.getCurrentPosition((position) => {
@@ -17,11 +18,18 @@ const AddPage = () => {
     });
   }
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
-    console.log(location);
-    console.log(description);
-    console.log(date);
+    await axios.post('http://127.0.0.1:5000/add-new-report', {
+      mail: 'worekkuba@gmail.com',
+      localization: `[${location.lat}, ${location.lng}]`,
+      link: photo,
+      category: 'wandalizm',
+      description: description,
+      date: new Date().toISOString(),
+      district: 'Krowodrza',
+      }
+    )
   }
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -42,7 +50,9 @@ const AddPage = () => {
     formData.append('file', selectedFile);
     console.log(formData)
 
-    await axios.post('http://127.0.0.1:5000/upload_file', formData);
+    await axios.post('http://127.0.0.1:5000/upload_file', formData).then((response) => {
+      setPhoto(response.data.link);
+    });
   };
 
   return (
@@ -61,37 +71,37 @@ const AddPage = () => {
           </form>
         </div>
 
-
+        <button
+            onClick={getMyLocation}
+            className='my-4 bg-blue-400 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full'
+          >Dodaj lokalizację
+        </button>
 
         <form className="flex flex-col max-w-xs mx-auto text-center"
           onSubmit={handleFormSubmit}
         >
-          <button
-            onClick={getMyLocation}
-            className='my-4 bg-blue-400 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full'
-          >Dodaj lokalizację
-          </button>
-          {location &&
+
+          {location && 
             <p className=''>
               Twoja lokalizacja: {location.lat} {location.lng}
             </p>
           }
           <label className='mt-4'>Opis zgłoszenia</label>
-          <input
-          type="text"
-          placeholder="Opis"
-          value={description}
+          <input 
+          type="text" 
+          placeholder="Opis" 
+          value={description} 
           onChange={ev => setDescription(ev.target.value)}/>
           <label className='mt-4'>Data zgłoszenia</label>
-          <input
-            type="date"
+          <input 
+            type="date" 
             name="date"
             value={date}
             placeholder="Date"
             className='my-4'
             onChange={(e) => setDate(e.target.value)}
           />
-          <button
+          <button 
             type="submit"
             className='my-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
           >
