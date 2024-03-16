@@ -16,7 +16,7 @@ const AdminPage = () => {
         { id: 1,
             position: [50.06221931833916, 19.937108686033973],
             data: {
-                district: "Krowodrza",
+                district: "Stare Miasto",
                 category: "Zniszczona ławka",
                 numberOfReports: 2,
                 date: "2022-10-10",
@@ -27,23 +27,23 @@ const AdminPage = () => {
         { id: 2,
             position: [50.06221931833916, 19.947108686033973],
             data: {
-                district: "Krowodrza",
+                district: "Stare Miasto",
                 category: "Zniszczona latarnia",
                 numberOfReports: 3,
                 date: "2022-10-10",
                 closedDate: null,
-                photo: "https://noweinfo.pl/wp-content/uploads/2020/09/Lawka-zniszczona.jpg"
+                photo: "https://24jgora.pl/static/files/gallery/146/561093_1544170181.jpg"
             }
         },
         { id: 3,
             position: [50.06221931833916, 19.957108686033973],
             data: {
-                district: "Krowodrza",
+                district: "Grzegórzki",
                 category: "Zniszczony kosz",
                 numberOfReports: 4,
                 date: "2022-10-10",
                 closedDate: "2022-11-10",
-                photo: "https://noweinfo.pl/wp-content/uploads/2020/09/Lawka-zniszczona.jpg"
+                photo: "https://d-art.ppstatic.pl/kadry/k/r/40/e8/578343c5d91d0_o_medium.jpg"
             }
         }
     ]

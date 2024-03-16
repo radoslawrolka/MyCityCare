@@ -6,37 +6,37 @@ const Dropdown = ({isAdmin, shown}) => {
                     {shown==="map" &&
                         <li>
                             <a href={"/map"} className="block py-2 px-3 text-white bg-blue-700 rounded"
-                               aria-current="page">Map</a>
+                               aria-current="page">Mapa</a>
                         </li>
                     }
                     {shown !== "map" &&
                         <li>
                             <a href={"/map"} className="block py-2 px-3 rounded hover:bg-gray-100 bg-gray-800 border-gray-700 text-white"
-                               aria-current="page">Map</a>
+                               aria-current="page">Mapa</a>
                         </li>
                     }
                     {shown === "add" &&
                         <li>
                             <a href={"/add"} className="block py-2 px-3 text-white bg-blue-700 rounded"
-                               aria-current="page">Report</a>
+                               aria-current="page">Zgłoś</a>
                         </li>
                     }
                     {shown !== "add" &&
                         <li>
                             <a href={"/add"}
-                               className="block py-2 px-3 rounded hover:bg-gray-100 bg-gray-800 border-gray-700 text-white">Report</a>
+                               className="block py-2 px-3 rounded hover:bg-gray-100 bg-gray-800 border-gray-700 text-white">Zgłoś</a>
                         </li>
                     }
                     {isAdmin && shown === "admin" &&
                         <li>
                             <a href={"/admin"}
-                               className="block py-2 px-3 text-white bg-blue-700 rounded">Manage</a>
+                               className="block py-2 px-3 text-white bg-blue-700 rounded">Zarządzaj</a>
                         </li>
                     }
                     {isAdmin && shown !== "admin" &&
                         <li>
                             <a href={"/admin"}
-                               className="block py-2 px-3 rounded hover:bg-gray-100 bg-gray-800 border-gray-700 text-white">Manage</a>
+                               className="block py-2 px-3 rounded hover:bg-gray-100 bg-gray-800 border-gray-700 text-white">Zarządzaj</a>
                         </li>
                     }
                 </ul>
