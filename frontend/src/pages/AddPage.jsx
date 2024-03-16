@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from "../components/Navbar.jsx";
 
-const MapPage = () => {
+const AddPage = () => {
   return (
       <>
         <Navbar />
-        <div>MapPage</div>
+        <div>AddPage</div>
       </>
   )
 }
 
-export default MapPage
+export default AddPage
