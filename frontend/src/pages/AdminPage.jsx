@@ -1,0 +1,69 @@
+import {useState, useEffect} from 'react'
+import Navbar from "../components/Navbar.jsx";
+import {ShowData} from "../components/ShowData.jsx";
+
+const AdminPage = () => {
+    const [data, setData] = useState([])
+    const fetchData = () => {
+        fetch("...")
+            .then((response) => response.json())
+            .then((fetched) => setData(fetched))
+            .catch((error) => console.log(error))
+    }
+
+
+    const points = [
+        { id: 1,
+            position: [50.06221931833916, 19.937108686033973],
+            data: {
+                district: "Stare Miasto",
+                category: "Zniszczona ławka",
+                numberOfReports: 2,
+                date: "2022-10-10",
+                closedDate: null,
+                photo: "https://noweinfo.pl/wp-content/uploads/2020/09/Lawka-zniszczona.jpg"
+            }
+        },
+        { id: 2,
+            position: [50.06221931833916, 19.947108686033973],
+            data: {
+                district: "Stare Miasto",
+                category: "Zniszczona latarnia",
+                numberOfReports: 3,
+                date: "2022-10-10",
+                closedDate: null,
+                photo: "https://24jgora.pl/static/files/gallery/146/561093_1544170181.jpg"
+            }
+        },
+        { id: 3,
+            position: [50.06221931833916, 19.957108686033973],
+            data: {
+                district: "Grzegórzki",
+                category: "Zniszczony kosz",
+                numberOfReports: 4,
+                date: "2022-10-10",
+                closedDate: "2022-11-10",
+                photo: "https://d-art.ppstatic.pl/kadry/k/r/40/e8/578343c5d91d0_o_medium.jpg"
+            }
+        }
+    ]
+    useEffect(() => {
+        // points.map((point) => {
+        //     setData(data => [...data, point])
+        // })
+        setData(points);
+        fetchData()
+    }, [])
+
+  return (
+      <>
+        <Navbar shown={"admin"}/>
+        <div className={"overflow-auto h-screen bg-gradient-to-b from-gray-600 to-gray-400"}>
+          <h1 className={"text-2xl font-bold text-center text-gray-100"}>Zarządzaj zgłoszeniami</h1>
+            <ShowData data={data}/>
+        </div>
+      </>
+  )
+}
+
+export default AdminPage
