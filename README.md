@@ -4,8 +4,7 @@ MyCityCare is an web application developed during the SWM Hackathon 2024, where 
 
  Despite its rapid development within a few hours, MyCityCare demonstrates its potential to streamline civic engagement and improve urban infrastructure by bridging the gap between citizens and authorities.
 
-<img src="./documentation/map.png" height=300>
-<img src="./documentation/list2.png" height=300>
+<img src="./documentation/map.png" height=300> <img src="./documentation/list2.png" height=300>
 
 ## Presentation
 
@@ -28,11 +27,8 @@ Technologies used for this app:
   - MySql
 
 ## Gallery 
-<img src="./documentation/zoom.png" height=300>
-<img src="./documentation/report.png" height=300>
-
-<img src="./documentation/add.png" height=300>
-<img src="./documentation/list1.png" height=300>
+<img src="./documentation/zoom.png" height=300> <img src="./documentation/report.png" height=300>
+<img src="./documentation/add.png" height=300> <img src="./documentation/list1.png" height=300>
 
 ## Important
 Due to privacy concerns, all credentials have been removed, rendering the application non-functional.
